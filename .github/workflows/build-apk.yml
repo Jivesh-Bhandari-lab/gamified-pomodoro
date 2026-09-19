@@ -28,37 +28,60 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # 4. Android SDK environment
-      # The GitHub Ubuntu runner already contains the Android SDK.
-      # We only initialize the Android environment here.
+      # 4. Set up Android SDK
+      # v4 avoids the obsolete "tools" SDK package.
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
 
-      # 5. Verify Android tools
-      - name: Verify Android environment
+      # 5. Install required Android SDK components
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      # 6. Verify environment
+      - name: Verify build environment
         run: |
           echo "ANDROID_HOME=$ANDROID_HOME"
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          echo "Java:"
           java -version
+          echo "Node:"
           node --version
+          echo "NPM:"
           npm --version
-          adb version
+          echo "Android SDK:"
           sdkmanager --version
+          echo "ADB:"
+          adb version
 
-      # 6. Install project dependencies
+      # 7. Install web dependencies
       - name: Install web dependencies
         run: npm install
 
-      # 7. Install Capacitor
+      # 8. Install Capacitor
       - name: Install Capacitor
         run: |
           npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
 
-      # 8. Build Next.js static website
+      # 9. Build Next.js static export
       - name: Build Next.js application
         run: npm run build
 
-      # 9. Create Capacitor configuration
+      # 10. Verify Next.js output
+      - name: Verify web build
+        run: |
+          if [ ! -d "out" ]; then
+            echo "ERROR: Next.js did not create the out directory."
+            exit 1
+          fi
+
+          echo "Next.js static export created successfully."
+          ls -la out
+
+      # 11. Create Capacitor configuration
       - name: Create Capacitor config
         run: |
           cat > capacitor.config.json <<'EOF'
@@ -69,24 +92,37 @@ jobs:
           }
           EOF
 
-      # 10. Add Android platform
+      # 12. Add Android platform
       - name: Add Android platform
         run: npx cap add android
 
-      # 11. Copy web application into Android project
+      # 13. Sync web application with Android
       - name: Sync Capacitor
         run: npx cap sync android
 
-      # 12. Make Gradle executable
+      # 14. Make Gradle executable
       - name: Make Gradle executable
         run: chmod +x android/gradlew
 
-      # 13. Build APK
+      # 15. Build APK
       - name: Build Android Debug APK
         working-directory: android
         run: ./gradlew assembleDebug --no-daemon --stacktrace
 
-      # 14. Upload APK
+      # 16. Verify APK
+      - name: Verify APK
+        run: |
+          APK_PATH="android/app/build/outputs/apk/debug/app-debug.apk"
+
+          if [ ! -f "$APK_PATH" ]; then
+            echo "ERROR: APK was not generated."
+            exit 1
+          fi
+
+          echo "APK successfully generated:"
+          ls -lh "$APK_PATH"
+
+      # 17. Upload APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
