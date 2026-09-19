@@ -1,0 +1,72 @@
+{
+  "background_color": "#381fcb",
+  "description": "A playful RPG-style Pomodoro timer. Focus in 25/5 sessions, earn Focus Points, level up, and unlock titles and badges in the Reward Vault.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "FocusQuest",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "FocusQuest",
+  "start_url": "/",
+  "theme_color": "#1bb0d0",
+  "icons": [
+    {
+      "src": "https://quest-timer-three.vercel.app/icon-light-32x32.png",
+      "type": "image/png",
+      "sizes": "32x32",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 32,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://quest-timer-three.vercel.app/icon-dark-32x32.png",
+      "type": "image/png",
+      "sizes": "32x32",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 32,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://quest-timer-three.vercel.app/icon.svg",
+      "type": "image/svg+xml",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://quest-timer-three.vercel.app/apple-icon.png",
+      "type": "image/png",
+      "sizes": "180x180",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 180,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "com.focusquest.app",
+  "lang": "en",
+  "categories": [
+    "education",
+    "lifestyle",
+    "productivity"
+  ]
+}
