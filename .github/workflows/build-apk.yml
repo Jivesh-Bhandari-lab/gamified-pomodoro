@@ -13,11 +13,10 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js (Latest Node 24)
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 24  # Updated to match current system standards
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -29,7 +28,7 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Install Web Dependencies
-        run: npm ci || npm install
+        run: npm install  # Fixed the lockfile crash by bypass-installing cleanly
 
       - name: Install Capacitor Core & CLI
         run: npm install @capacitor/core @capacitor/cli @capacitor/android
