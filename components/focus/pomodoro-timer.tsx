@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { Pause, Play, RotateCcw, SkipForward } from "lucide-react"
+import { Pause, Play, RotateCcw,  RotateCcw } from "lucide-react"
 import { TimerRing } from "./timer-ring"
 
 const FOCUS_SECONDS = 25 * 60
@@ -132,13 +132,6 @@ export function PomodoroTimer({ onFocusComplete, onBreakComplete }: PomodoroTime
           {running ? <Pause className="h-8 w-8" /> : <Play className="ml-1 h-8 w-8" />}
         </button>
 
-        <button
-          onClick={handleComplete}
-          aria-label="Skip to complete"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition hover:bg-white/10 hover:text-white active:scale-95"
-        >
-          <SkipForward className="h-5 w-5" />
-        </button>
       </div>
 
       <p className="max-w-xs text-center text-xs text-slate-500">
